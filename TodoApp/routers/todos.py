@@ -32,10 +32,11 @@ class TodoRequest(BaseModel):  ### Done before post request for sure to validate
     complete: bool
     
 ### get all todos based on a specific user
-@router.get("/")
+@router.get("/", status_code=status.HTTP_200_OK)
 async def read_all(user: user_dependency, db: db_dependency):  ## Depends create session, return info back to us then close connection
-    
-    return db.query(Todos).filter(user.get('id')== Todos.id).all()
+    if user is None:
+        raise HTTPException(status_code=401, default='Authentication Failed')
+    return db.query(Todos).filter(user.get('id')== Todos.owner_id).all()
 
 
 @router.get("/todo/{todo_id}", status_code=status.HTTP_200_OK)
