@@ -13,6 +13,9 @@ class Users(Base):
     is_active = Column(Boolean, default=False)
     role = Column(String)
     
+    ##model improvement using Alembic
+    # phone_number = Column(String)   if you want to do upgrade 
+    
 ### models schema of tables that we are submitted into database
 class Todos(Base):
     __tablename__ = 'todos'
